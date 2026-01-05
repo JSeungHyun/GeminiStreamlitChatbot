@@ -27,15 +27,14 @@ def create_chain(prompt_type="기본모드"):
             prompt = load_prompt("prompts/blog.yaml", encoding="utf-8")
         except Exception as e:
             # 파일이 없으면 그냥 기본 프롬프트 사용 (에러 방지)
-            print(f"yaml load 중 오류 발생 ⚠️ : {e}")
+            print(f"blog.yaml load 중 오류 발생 ⚠️ : {e}")
             pass 
             
     elif prompt_type == "요약":
-        # LangSmith Hub를 쓴다면 API Key 필요 (없으면 기본 사용 권장)
         try:
-            client = Client()
-            prompt = client.pull("teddynote/chain-of-density-map-korean")
+            prompt = load_prompt("prompts/summary.yaml", encoding="utf-8")
         except Exception:
+            print(f"summary.yaml load 중 오류 발생 ⚠️ : {e}")
             pass
 
     # 3. 출력 파서
