@@ -3,9 +3,9 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.32.0-red.svg)
 ![LangChain](https://img.shields.io/badge/LangChain-LCEL-green.svg)
-![Gemini](https://img.shields.io/badge/Model-Gemini%201.5%20Flash-orange.svg)
+![Gemini](https://img.shields.io/badge/Model-Gemini%202.5%20Flash-orange.svg)
 
-LangChain과 Google Gemini Pro 모델을 활용하여 구축한 **대화형 챗봇 애플리케이션**입니다.  
+LangChain과 Google Gemini 모델을 활용하여 구축한 **대화형 챗봇 애플리케이션**입니다.  
 사용자의 질문에 답변하는 기본 기능 외에 **블로그 포스팅 작성**, **텍스트 요약** 등 특화된 기능을 제공합니다.
 
 > 💡 **Credit & Inspiration** > 이 프로젝트는 **['테디노트(TeddyNote)'의 LangChain 강의]**를 수강하며 학습한 내용을 바탕으로 제작되었습니다.  
