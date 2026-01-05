@@ -18,7 +18,7 @@ LangChain과 Google Gemini 모델을 활용하여 구축한 **대화형 챗봇 �
 2.  **블로그 포스팅 생성 (Blog Generator):** 주제만 입력하면 SEO에 최적화된 블로그 글 구조(제목, 본문, 태그 등) 자동 생성
 3.  **핵심 요약 (Summary Expert):** 긴 텍스트나 복잡한 내용을 입력받아 핵심 내용만 간결하게 요약
 4.  **창의성 조절 (Parameter Tuning):** 사이드바의 Temperature 슬라이더를 통해 AI 답변의 창의성 수준(0.0 ~ 1.0)을 실시간으로 제어 ✅
-
+5.  **멀티모달 지원 (Multimodal Support):** 이미지를 업로드하면 AI가 사진 속 정보를 분석하여 시각적 맥락을 반영한 답변 제공 📸
 ---
 
 ## 📂 프로젝트 구조 (Directory Structure)
