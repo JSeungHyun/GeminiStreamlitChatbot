@@ -25,6 +25,9 @@ with st.sidebar:
         ("기본모드", "블로그 게시글", "요약"), 
         index=0
     )
+    
+    # Temperature 슬라이더 추가
+    temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.1)
 
 # 대화 기록 초기화 동작
 if clear_btn:
@@ -48,21 +51,28 @@ if user_input:
     # 사용자 메시지 화면 표시
     st.chat_message("user").write(user_input)
     
-    # [중요] app/chains.py에서 가져온 함수로 체인 생성
-    chain = create_chain(selected_prompt)
-    
     # AI 응답 생성 (스트리밍)
     with st.chat_message("assistant"):
         container = st.empty()
         ai_answer = ""
-        try:
-            # 체인 실행
-            for token in chain.stream({"question": user_input}):
-                ai_answer += token
-                container.markdown(ai_answer)
-        except Exception as e:
-            st.error(f"에러 발생: {e}")
-            ai_answer = "죄송합니다. 처리 중 오류가 발생했습니다."
+        
+        # 1. 로딩 인디케이터 표시
+        with st.spinner("답변을 생성하는 중입니다..."):
+            try:
+                # [중요] app/chains.py에서 가져온 함수로 체인 생성
+                chain = create_chain(selected_prompt, temperature)
+                
+                # 2. 스트리밍 출력 (빈 컨테이너 활용)
+                for token in chain.stream({"question": user_input}):
+                    ai_answer += token
+                    container.markdown(ai_answer)
+                
+                # 3. 완료 알림 표시
+                st.toast("답변 생성이 완료되었습니다!", icon="✅")
+                
+            except Exception as e:
+                st.error(f"에러 발생: {e}")
+                ai_answer = "죄송합니다. 처리 중 오류가 발생했습니다."
 
     # 대화 기록 저장
     add_message("user", user_input)

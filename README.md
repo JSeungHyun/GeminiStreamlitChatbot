@@ -17,7 +17,7 @@ LangChain과 Google Gemini Pro 모델을 활용하여 구축한 **대화형 챗�
 1.  **기본 대화 모드 (Chat):** Google Gemini 2.5 Flash 모델 기반의 빠르고 자연스러운 대화
 2.  **블로그 포스팅 생성 (Blog Generator):** 주제만 입력하면 SEO에 최적화된 블로그 글 구조(제목, 본문, 태그 등) 자동 생성
 3.  **핵심 요약 (Summary Expert):** 긴 텍스트나 복잡한 내용을 입력받아 핵심 내용만 간결하게 요약
-4.  **구조화된 코드:** 유지보수가 용이하도록 UI(`main.py`)와 로직(`app/`)을 분리한 설계
+4.  **창의성 조절 (Parameter Tuning):** 사이드바의 Temperature 슬라이더를 통해 AI 답변의 창의성 수준(0.0 ~ 1.0)을 실시간으로 제어 ✅
 
 ---
 

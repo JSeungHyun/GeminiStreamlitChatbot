@@ -7,10 +7,10 @@ from langchainhub import Client
 from app.utils import load_prompt
 
 # LCEL 문법을 사용하여 체인을 생성하는 함수
-def create_chain(prompt_type="기본모드"):
+def create_chain(prompt_type="기본모드", temperature=0):
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash-lite",
-        temperature=0
+        temperature=temperature
     )
     
     # 2. 프롬프트 설정
