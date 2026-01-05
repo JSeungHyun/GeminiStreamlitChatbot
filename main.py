@@ -26,8 +26,12 @@ with st.sidebar:
         index=0
     )
     
-    # Temperature 슬라이더 추가
+    # Temperature 슬라이더
     temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.1)
+    
+    # 이미지 업로드 기능 추가
+    st.markdown("### 이미지 업로드")
+    uploaded_file = st.file_uploader("이미지를 추가하세요", type=["jpg", "png", "jpeg", "webp"])
 
 # 대화 기록 초기화 동작
 if clear_btn:
@@ -35,11 +39,16 @@ if clear_btn:
 
 # 5. 함수 정의 (화면에 뿌려주는 역할만 수행)
 def print_messages():
-    for chat_message in st.session_state["messages"]:
-        st.chat_message(chat_message.role).write(chat_message.content)
+    for msg in st.session_state["messages"]:
+        with st.chat_message(msg["role"]):
+            st.write(msg["content"])
+            if msg.get("image"):
+                st.image(msg["image"], width=300)
 
-def add_message(role, content):
-    st.session_state["messages"].append(ChatMessage(role=role, content=content))
+def add_message(role, content, image=None):
+    # 이미지 데이터를 bytes로 저장하여 세션 유지 시 안정성 확보
+    img_data = image.getvalue() if image else None
+    st.session_state["messages"].append({"role": role, "content": content, "image": img_data})
 
 # 6. 메인 로직 실행
 print_messages()
@@ -49,7 +58,10 @@ user_input = st.chat_input("궁금한 내용을 물어보세요!")
 
 if user_input:
     # 사용자 메시지 화면 표시
-    st.chat_message("user").write(user_input)
+    with st.chat_message("user"):
+        st.write(user_input)
+        if uploaded_file:
+            st.image(uploaded_file, width=300)
     
     # AI 응답 생성 (스트리밍)
     with st.chat_message("assistant"):
@@ -63,7 +75,12 @@ if user_input:
                 chain = create_chain(selected_prompt, temperature)
                 
                 # 2. 스트리밍 출력 (빈 컨테이너 활용)
-                for token in chain.stream({"question": user_input}):
+                # 이미지가 있으면 함께 전달
+                input_data = {"question": user_input}
+                if uploaded_file:
+                    input_data["image_data"] = uploaded_file
+                    
+                for token in chain.stream(input_data):
                     ai_answer += token
                     container.markdown(ai_answer)
                 
@@ -74,6 +91,6 @@ if user_input:
                 st.error(f"에러 발생: {e}")
                 ai_answer = "죄송합니다. 처리 중 오류가 발생했습니다."
 
-    # 대화 기록 저장
-    add_message("user", user_input)
+    # 대화 기록 저장 (이미지도 함께 저장)
+    add_message("user", user_input, uploaded_file)
     add_message("assistant", ai_answer)
